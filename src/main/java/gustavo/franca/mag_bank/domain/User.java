@@ -52,8 +52,9 @@ public class User {
         this.password = objDTO.getPassword();
         this.phoneNumber = objDTO.getPhoneNumber();
         this.userType = new UserType();
-        this.userType.setId(2L);
+        this.userType.setId(objDTO.getUserType().getId() != null ? objDTO.getUserType().getId() : 2L);
     }
+
 
     public Long getId() {
         return id;
