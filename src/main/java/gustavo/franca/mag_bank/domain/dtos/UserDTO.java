@@ -1,7 +1,7 @@
 package gustavo.franca.mag_bank.domain.dtos;
 
 import gustavo.franca.mag_bank.domain.User;
-import gustavo.franca.mag_bank.domain.UserType;
+import gustavo.franca.mag_bank.domain.enums.UserType;
 import jakarta.validation.constraints.NotNull;
 
 public class UserDTO {
@@ -22,19 +22,20 @@ public class UserDTO {
     @NotNull(message = "The phone number field is required.")
     private String phoneNumber;
 
-    private UserType userType;
+    @NotNull(message = "The user type field is required.")
+    private Integer userTypeId;
 
     public UserDTO() {
     }
 
-    public UserDTO(Long id, String fullName, String email, String cpf, String password, String phoneNumber, UserType userType) {
+    public UserDTO(Long id, String fullName, String email, String cpf, String password, String phoneNumber, Integer userTypeId) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
         this.cpf = cpf;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.userType = userType;
+        this.userTypeId = userTypeId;
     }
 
     public UserDTO(User obj) {
@@ -44,7 +45,7 @@ public class UserDTO {
         this.email = obj.getEmail();
         this.password = obj.getPassword();
         this.phoneNumber = obj.getPhoneNumber();
-        this.userType = obj.getUserType();
+        this.userTypeId = obj.getUserType() != null ? obj.getUserType().getCode() : null; // Convertendo para Integer
     }
 
     public Long getId() {
@@ -95,11 +96,11 @@ public class UserDTO {
         this.phoneNumber = phoneNumber;
     }
 
-    public UserType getUserType() {
-        return userType;
+    public Integer getUserTypeId() {
+        return userTypeId;
     }
 
-    public void setUserType(UserType userType) {
-        this.userType = userType;
+    public void setUserTypeId(Integer userTypeId) {
+        this.userTypeId = userTypeId;
     }
 }

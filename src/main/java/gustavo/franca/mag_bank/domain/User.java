@@ -1,6 +1,7 @@
 package gustavo.franca.mag_bank.domain;
 
 import gustavo.franca.mag_bank.domain.dtos.UserDTO;
+import gustavo.franca.mag_bank.domain.enums.UserType;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,37 +12,36 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "full_name")
+    @Column(name = "full_name", nullable = false)
     private String fullName;
 
-    @Column(name = "email", unique = true)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "cpf", unique = true)
+    @Column(name = "cpf", unique = true, nullable = false)
     private String cpf;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "user_type_id")
+    @Enumerated(EnumType.STRING) // Armazena como STRING no banco
+    @Column(name = "user_type", nullable = false)
     private UserType userType;
 
     public User() {
     }
 
-    public User(Long id, String fullName, String email, String cpf, String password, String phoneNumber) {
+    public User(Long id, String fullName, String email, String cpf, String password, String phoneNumber, UserType userType) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
         this.cpf = cpf;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.userType = new UserType();
-        this.userType.setId(2L);
+        this.userType = userType;
     }
 
     public User(UserDTO objDTO) {
@@ -51,10 +51,8 @@ public class User {
         this.cpf = objDTO.getCpf();
         this.password = objDTO.getPassword();
         this.phoneNumber = objDTO.getPhoneNumber();
-        this.userType = new UserType();
-        this.userType.setId(objDTO.getUserType().getId() != null ? objDTO.getUserType().getId() : 2L);
+        this.userType = UserType.fromCode(objDTO.getUserTypeId());
     }
-
 
     public Long getId() {
         return id;
