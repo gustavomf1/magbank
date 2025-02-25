@@ -5,6 +5,7 @@ import gustavo.franca.mag_bank.domain.dtos.UserDTO;
 import gustavo.franca.mag_bank.repository.UserRepository;
 import gustavo.franca.mag_bank.services.exceptions.DataIntegrityViolationException;
 import gustavo.franca.mag_bank.services.exceptions.ObjectNotFoundExcpetion;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

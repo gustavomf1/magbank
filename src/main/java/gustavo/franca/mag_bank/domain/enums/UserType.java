@@ -2,7 +2,7 @@ package gustavo.franca.mag_bank.domain.enums;
 
 public enum UserType {
     ADMIN(0, "ROLE_ADMIN"),
-    LIDER(1, "ROLE_USER");
+    USER(1, "ROLE_USER");
 
     private final Integer code;
     private final String description;

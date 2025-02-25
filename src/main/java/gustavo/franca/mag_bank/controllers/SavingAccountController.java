@@ -4,8 +4,10 @@ import gustavo.franca.mag_bank.domain.SavingAccount;
 import gustavo.franca.mag_bank.domain.dtos.SavingAccountDTO;
 import gustavo.franca.mag_bank.services.SavingAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,6 +28,14 @@ public class SavingAccountController {
 
         return ResponseEntity.ok().body(listDTO);
     }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<SavingAccountDTO> findById(@PathVariable Long id){
+        SavingAccount obj = service.finById(id);
+
+        return ResponseEntity.ok().body(new SavingAccountDTO(obj));
+    }
+
 
 
 }

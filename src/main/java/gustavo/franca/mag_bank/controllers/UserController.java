@@ -3,6 +3,7 @@ package gustavo.franca.mag_bank.controllers;
 import gustavo.franca.mag_bank.domain.User;
 import gustavo.franca.mag_bank.domain.dtos.UserDTO;
 import gustavo.franca.mag_bank.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,14 +35,14 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> create(@RequestBody UserDTO objDTO){
+    public ResponseEntity<UserDTO> create(@Valid @RequestBody UserDTO objDTO){
         User newObj = service.create(objDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UserDTO objDTO){
+    public ResponseEntity<UserDTO> update(@Valid @PathVariable Long id, @RequestBody UserDTO objDTO){
         User newObj = service.update(id, objDTO);
 
         return ResponseEntity.ok().body(new UserDTO(newObj));

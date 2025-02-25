@@ -2,24 +2,25 @@ package gustavo.franca.mag_bank.domain.dtos;
 
 import gustavo.franca.mag_bank.domain.User;
 import gustavo.franca.mag_bank.domain.enums.UserType;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class UserDTO {
     private Long id;
 
-    @NotNull(message = "The Full Name field is required.")
+    @NotBlank(message = "The Full Name field is required.")
     private String fullName;
 
-    @NotNull(message = "The email field is required.")
+    @NotBlank(message = "The email field is required.")
     private String email;
 
-    @NotNull(message = "The CPF field is required.")
+    @NotBlank(message = "The CPF field is required.")
     private String cpf;
 
-    @NotNull(message = "The password field is required.")
+    @NotBlank(message = "The password field is required.")
     private String password;
 
-    @NotNull(message = "The phone number field is required.")
+    @NotBlank(message = "The phone number field is required.")
     private String phoneNumber;
 
     @NotNull(message = "The user type field is required.")
