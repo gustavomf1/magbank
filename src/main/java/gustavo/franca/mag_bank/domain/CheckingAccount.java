@@ -7,15 +7,15 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "tb_checking_account")
-public class ChekingAccount extends Account{
+public class CheckingAccount extends Account{
 
     private static final BigDecimal OVERDRAFT_LIMIT = new BigDecimal("1000.00");
 
-    public ChekingAccount(){
+    public CheckingAccount(){
 
     }
 
-    public ChekingAccount(User user, String accountNumber, BigDecimal balance){
+    public CheckingAccount(User user, String accountNumber, BigDecimal balance){
         super(user, accountNumber, balance);
     }
 }

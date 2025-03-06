@@ -8,14 +8,14 @@ import java.math.BigDecimal;
 public abstract class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false, unique = true)
-    private User user;
+    protected User user;
 
     @Column(name = "account_number", unique = true, nullable = false)
-    private String accountNumber;
+    protected String accountNumber;
 
     @Column(name = "balance", nullable = false)
     protected BigDecimal balance = BigDecimal.ZERO;

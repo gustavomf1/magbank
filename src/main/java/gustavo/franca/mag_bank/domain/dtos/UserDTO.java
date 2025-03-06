@@ -1,7 +1,8 @@
 package gustavo.franca.mag_bank.domain.dtos;
 
+import gustavo.franca.mag_bank.domain.CheckingAccount;
+import gustavo.franca.mag_bank.domain.SavingAccount;
 import gustavo.franca.mag_bank.domain.User;
-import gustavo.franca.mag_bank.domain.enums.UserType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -26,7 +27,12 @@ public class UserDTO {
     @NotNull(message = "The user type field is required.")
     private Integer userTypeId;
 
+    private SavingAccount savingAccount;
+    private CheckingAccount checkingAccount;
+
     public UserDTO() {
+        this.savingAccount = null;
+        this.checkingAccount = null;
     }
 
     public UserDTO(Long id, String fullName, String email, String cpf, String password, String phoneNumber, Integer userTypeId) {
@@ -46,7 +52,9 @@ public class UserDTO {
         this.email = obj.getEmail();
         this.password = obj.getPassword();
         this.phoneNumber = obj.getPhoneNumber();
-        this.userTypeId = obj.getUserType() != null ? obj.getUserType().getCode() : null; // Convertendo para Integer
+        this.userTypeId = obj.getUserType() != null ? obj.getUserType().getCode() : null;
+        this.savingAccount = obj.getSavingAccount();
+        this.checkingAccount = obj.getCheckingAccount();
     }
 
     public Long getId() {
@@ -103,5 +111,21 @@ public class UserDTO {
 
     public void setUserTypeId(Integer userTypeId) {
         this.userTypeId = userTypeId;
+    }
+
+    public SavingAccount getSavingAccount() {
+        return savingAccount;
+    }
+
+    public void setSavingAccount(SavingAccount savingAccount) {
+        this.savingAccount = savingAccount;
+    }
+
+    public CheckingAccount getCheckingAccount() {
+        return checkingAccount;
+    }
+
+    public void setCheckingAccount(CheckingAccount checkingAccount) {
+        this.checkingAccount = checkingAccount;
     }
 }

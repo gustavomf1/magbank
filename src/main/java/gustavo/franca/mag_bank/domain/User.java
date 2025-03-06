@@ -27,9 +27,17 @@ public class User {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Enumerated(EnumType.STRING) // Armazena como STRING no banco
+    @Enumerated(EnumType.STRING)
     @Column(name = "user_type", nullable = false)
     private UserType userType;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "saving_account_id", unique = true)
+    private SavingAccount savingAccount;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "checking_account_id", unique = true)
+    private CheckingAccount checkingAccount;
 
     public User() {
     }
@@ -42,6 +50,8 @@ public class User {
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.userType = userType;
+        this.savingAccount = null;
+        this.checkingAccount = null;
     }
 
     public User(UserDTO objDTO) {
@@ -52,6 +62,8 @@ public class User {
         this.password = objDTO.getPassword();
         this.phoneNumber = objDTO.getPhoneNumber();
         this.userType = UserType.fromCode(objDTO.getUserTypeId());
+        this.checkingAccount = null;
+        this.savingAccount = null;
     }
 
     public Long getId() {
@@ -104,6 +116,22 @@ public class User {
 
     public UserType getUserType() {
         return userType;
+    }
+
+    public SavingAccount getSavingAccount() {
+        return savingAccount;
+    }
+
+    public void setSavingAccount(SavingAccount savingAccount) {
+        this.savingAccount = savingAccount;
+    }
+
+    public CheckingAccount getCheckingAccount() {
+        return checkingAccount;
+    }
+
+    public void setCheckingAccount(CheckingAccount checkingAccount) {
+        this.checkingAccount = checkingAccount;
     }
 
     public void setUserType(UserType userType) {
