@@ -6,11 +6,10 @@ import gustavo.franca.mag_bank.services.SavingAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,8 +17,11 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/savingaccounts")
 public class SavingAccountController {
 
-    @Autowired
-    private SavingAccountService service;
+    private final SavingAccountService service;
+
+    public SavingAccountController(SavingAccountService service){
+        this.service = service;
+    }
 
     @GetMapping
     public ResponseEntity<List<SavingAccountDTO>> findAll(){
@@ -34,6 +36,13 @@ public class SavingAccountController {
         SavingAccount obj = service.finById(id);
 
         return ResponseEntity.ok().body(new SavingAccountDTO(obj));
+    }
+
+    @PostMapping
+    public ResponseEntity<SavingAccountDTO> create(@RequestBody SavingAccountDTO objDTO){
+        SavingAccount newObj = service.create(objDTO);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
+        return ResponseEntity.created(uri).build();
     }
 
 

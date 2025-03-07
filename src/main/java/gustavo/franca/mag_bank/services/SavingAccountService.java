@@ -7,11 +7,11 @@ import gustavo.franca.mag_bank.repository.SavingAccountRepository;
 import gustavo.franca.mag_bank.repository.UserRepository;
 import gustavo.franca.mag_bank.services.exceptions.ObjectNotFoundException;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class SavingAccountService {
@@ -33,10 +33,24 @@ public class SavingAccountService {
 
     public SavingAccount create(@Valid SavingAccountDTO objDTO){
         User user = userRepository.findById(objDTO.getUserId()).orElseThrow(() -> new ObjectNotFoundException("User not Found"));
+        objDTO.setAccountNumber(accountNumber());
 
         SavingAccount savingAccount = new SavingAccount(objDTO, user);
         return repository.save(savingAccount);
     }
+
+    public String accountNumber(){
+        String accountNumber;
+        Random random = new Random();
+
+        do {
+            accountNumber = String.format("%08d", random.nextInt(100000000));
+        }while (repository.existsByAccountNumber(accountNumber));
+
+        return accountNumber;
+    }
+
+
 
 
 }

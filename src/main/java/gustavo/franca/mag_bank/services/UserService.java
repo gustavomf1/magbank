@@ -5,6 +5,7 @@ import gustavo.franca.mag_bank.domain.dtos.UserDTO;
 import gustavo.franca.mag_bank.repository.UserRepository;
 import gustavo.franca.mag_bank.services.exceptions.DataIntegrityViolationException;
 import gustavo.franca.mag_bank.services.exceptions.ObjectNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,20 +22,20 @@ public class UserService {
 
     public List<User> findAll() {return repository.findAll();}
 
-    public User findById(Long id){
+    public User findById(@Valid Long id){
         Optional<User> obj = repository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("User not found Id: " + id));
     }
 
-    public User create(UserDTO objDTO){
+    public User create(@Valid UserDTO objDTO){
         objDTO.setId(null);
-        validaCpf(objDTO);
+        validCpf(objDTO);
 
         User newObj = new User(objDTO);
         return repository.save(newObj);
     }
 
-    public User update(Long id, UserDTO objDTO){
+    public User update(@Valid Long id, UserDTO objDTO){
         objDTO.setId(id);
         User oldObj = findById(id);
 
@@ -49,7 +50,7 @@ public class UserService {
         return repository.save(oldObj);
     }
 
-    public void delete(Long id){
+    public void delete(@Valid Long id){
         User obj = findById(id);
         if(hasLinkedAccounts(obj)){
             throw new DataIntegrityViolationException("Cannot delete user with linked accounts.");
@@ -57,7 +58,7 @@ public class UserService {
         repository.deleteById(id);
     }
 
-    private void validaCpf(UserDTO objDTO){
+    private void validCpf(UserDTO objDTO){
         Optional<User> obj = repository.findByCpf(objDTO.getCpf());
         if(obj.isPresent() && !obj.get().getId().equals(objDTO.getId())){
             throw new DataIntegrityViolationException("CPF already registered!");
