@@ -2,6 +2,7 @@ package gustavo.franca.mag_bank.controllers;
 
 import gustavo.franca.mag_bank.domain.User;
 import gustavo.franca.mag_bank.domain.dtos.UserDTO;
+import gustavo.franca.mag_bank.services.SavingAccountService;
 import gustavo.franca.mag_bank.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,11 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/users")
 public class UserController {
 
-    @Autowired
-    private UserService service;
+    private final UserService service;
+
+    public UserController(UserService service){
+        this.service = service;
+    }
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> findAll(){

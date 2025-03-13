@@ -1,8 +1,10 @@
 package gustavo.franca.mag_bank.services;
 
+import gustavo.franca.mag_bank.domain.CheckingAccount;
 import gustavo.franca.mag_bank.domain.SavingAccount;
 import gustavo.franca.mag_bank.domain.User;
 import gustavo.franca.mag_bank.domain.dtos.SavingAccountDTO;
+import gustavo.franca.mag_bank.repository.CheckingAccountRepository;
 import gustavo.franca.mag_bank.repository.SavingAccountRepository;
 import gustavo.franca.mag_bank.repository.UserRepository;
 import gustavo.franca.mag_bank.services.exceptions.ObjectNotFoundException;
@@ -17,13 +19,14 @@ import java.util.Random;
 public class SavingAccountService {
 
     private final SavingAccountRepository repository;
+    private final CheckingAccountRepository checkingAccountRepository;
     private final UserRepository userRepository;
 
-    public SavingAccountService(SavingAccountRepository repository, UserRepository userRepository) {
+    public SavingAccountService(SavingAccountRepository repository, UserRepository userRepository, CheckingAccountRepository checkingAccountRepository) {
         this.repository = repository;
         this.userRepository = userRepository;
+        this.checkingAccountRepository = checkingAccountRepository;
     }
-
     public List<SavingAccount> findAll(){ return repository.findAll();}
 
     public SavingAccount finById(Long id){
@@ -40,14 +43,14 @@ public class SavingAccountService {
     }
 
     public String accountNumber(){
-        String accountNumber;
+        String accountNumberSaving;
         Random random = new Random();
 
         do {
-            accountNumber = String.format("%08d", random.nextInt(100000000));
-        }while (repository.existsByAccountNumber(accountNumber));
+            accountNumberSaving = String.format("%08d", random.nextInt(100000000));
+        }while (repository.existsByAccountNumber(accountNumberSaving) && checkingAccountRepository.existsByAccountNumber(accountNumberSaving));
 
-        return accountNumber;
+        return accountNumberSaving;
     }
 
 
