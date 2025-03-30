@@ -38,7 +38,7 @@ public class SavingAccountController {
         return ResponseEntity.ok().body(new SavingAccountDTO(obj));
     }
 
-    @PostMapping
+    @PostMapping(value = "/create")
     public ResponseEntity<SavingAccountDTO> create(@RequestBody SavingAccountDTO objDTO){
         SavingAccount newObj = service.create(objDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();

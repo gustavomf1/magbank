@@ -1,13 +1,17 @@
 package gustavo.franca.mag_bank.services;
 
+import gustavo.franca.mag_bank.domain.Address;
 import gustavo.franca.mag_bank.domain.User;
 import gustavo.franca.mag_bank.domain.dtos.UserDTO;
+import gustavo.franca.mag_bank.repository.AddressRepository;
 import gustavo.franca.mag_bank.repository.UserRepository;
+import gustavo.franca.mag_bank.services.exceptions.AddressServiceException;
 import gustavo.franca.mag_bank.services.exceptions.DataIntegrityViolationException;
 import gustavo.franca.mag_bank.services.exceptions.ObjectNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,9 +19,13 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository repository;
+    private final AddressRepository addressRepository;
+    private final ApiViaCepService apiViaCepService;
 
-    public UserService(UserRepository repository){
+    public UserService(UserRepository repository, AddressRepository addressRepository, ApiViaCepService apiViaCepService){
         this.repository = repository;
+        this.addressRepository = addressRepository;
+        this.apiViaCepService = apiViaCepService;
     }
 
     public List<User> findAll() {return repository.findAll();}
@@ -27,11 +35,40 @@ public class UserService {
         return obj.orElseThrow(() -> new ObjectNotFoundException("User not found Id: " + id));
     }
 
-    public User create(@Valid UserDTO objDTO){
+    public User create(@Valid UserDTO objDTO) {
         objDTO.setId(null);
         validCpf(objDTO);
-
         User newObj = new User(objDTO);
+
+
+        if (objDTO.getCep() != null && !objDTO.getCep().isEmpty()) {
+            try {
+                Address addressApi = apiViaCepService.getAddress(objDTO.getCep());
+
+                Address address = addressRepository.findByCep(objDTO.getCep())
+                        .orElseGet(() -> {
+                            Address newAddress = new Address();
+                            newAddress.setCep(addressApi.getCep());
+                            newAddress.setLogradouro(addressApi.getLogradouro());
+                            newAddress.setComplemento(addressApi.getComplemento());
+                            newAddress.setUnidade(addressApi.getUnidade());
+                            newAddress.setBairro(addressApi.getBairro());
+                            newAddress.setLocalidade(addressApi.getLocalidade());
+                            newAddress.setUf(addressApi.getUf());
+                            newAddress.setIbge(addressApi.getIbge());
+                            newAddress.setGia(addressApi.getGia());
+                            newAddress.setDdd(addressApi.getDdd());
+                            newAddress.setSiafi(addressApi.getSiafi());
+
+                            return addressRepository.save(newAddress);
+                        });
+
+                newObj.setAddress(address);
+            } catch (IOException | InterruptedException e) {
+                throw new AddressServiceException("Erro ao buscar endereço na API ViaCEP", e);
+            }
+        }
+
         return repository.save(newObj);
     }
 

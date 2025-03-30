@@ -1,12 +1,15 @@
 package gustavo.franca.mag_bank.domain.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import gustavo.franca.mag_bank.domain.CheckingAccount;
 import gustavo.franca.mag_bank.domain.SavingAccount;
 import gustavo.franca.mag_bank.domain.User;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class UserDTO {
+    @JsonIgnore
     private Long id;
 
     @NotBlank(message = "The Full Name field is required.")
@@ -27,8 +30,16 @@ public class UserDTO {
     @NotNull(message = "The user type field is required.")
     private Integer userTypeId;
 
+    @JsonIgnore
+    @Schema(hidden = true)
     private SavingAccount savingAccount;
+
+    @JsonIgnore
+    @Schema(hidden = true)
     private CheckingAccount checkingAccount;
+
+    @NotNull(message = "The cep field is required.")
+    private String cep;
 
     public UserDTO() {
         this.savingAccount = null;
@@ -127,5 +138,13 @@ public class UserDTO {
 
     public void setCheckingAccount(CheckingAccount checkingAccount) {
         this.checkingAccount = checkingAccount;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
     }
 }

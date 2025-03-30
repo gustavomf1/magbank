@@ -39,6 +39,11 @@ public class User {
     @JoinColumn(name = "checking_account_id", unique = true)
     private CheckingAccount checkingAccount;
 
+    @ManyToOne
+    @JoinColumn(name = "adress_id")
+    private Address address;
+
+
     public User() {
     }
 
@@ -136,5 +141,13 @@ public class User {
 
     public void setUserType(UserType userType) {
         this.userType = userType;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }
