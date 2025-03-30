@@ -41,12 +41,15 @@ public class UserDTO {
     @NotNull(message = "The cep field is required.")
     private String cep;
 
+    @NotNull(message = "The  number is required.")
+    private String number;
+
     public UserDTO() {
         this.savingAccount = null;
         this.checkingAccount = null;
     }
 
-    public UserDTO(Long id, String fullName, String email, String cpf, String password, String phoneNumber, Integer userTypeId) {
+    public UserDTO(Long id, String fullName, String email, String cpf, String password, String phoneNumber, Integer userTypeId, String cep, String number) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
@@ -54,6 +57,8 @@ public class UserDTO {
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.userTypeId = userTypeId;
+        this.cep = cep;
+        this.number = number;
     }
 
     public UserDTO(User obj) {
@@ -66,6 +71,8 @@ public class UserDTO {
         this.userTypeId = obj.getUserType() != null ? obj.getUserType().getCode() : null;
         this.savingAccount = obj.getSavingAccount();
         this.checkingAccount = obj.getCheckingAccount();
+        this.cep = obj.getAddress().getCep();
+        this.number = obj.getAddress().getNumber();
     }
 
     public Long getId() {
@@ -146,5 +153,13 @@ public class UserDTO {
 
     public void setCep(String cep) {
         this.cep = cep;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 }

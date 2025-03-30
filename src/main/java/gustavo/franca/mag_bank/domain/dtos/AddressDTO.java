@@ -1,46 +1,38 @@
 package gustavo.franca.mag_bank.domain.dtos;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class AddressDTO {
 
+    @JsonIgnore
     private Long id;
+
     private String cep;
+    @JsonIgnore
     private String logradouro;
+    @JsonIgnore
     private String complemento;
-    private String unidade;
+    @JsonIgnore
     private String bairro;
+    @JsonIgnore
     private String localidade;
+    @JsonIgnore
     private String uf;
-    private String ibge;
-    private String gia;
-    private String ddd;
-    private String siafi;
+    private String number;
 
     public AddressDTO() {
     }
 
-    public AddressDTO(String cep, String logradouro, String complemento, String bairro, String localidade, String uf, String ibge, String gia, String ddd, String siafi) {
+    public AddressDTO(String cep, String logradouro, String complemento, String bairro, String localidade, String uf) {
         this.cep = cep;
         this.logradouro = logradouro;
         this.complemento = complemento;
         this.bairro = bairro;
         this.localidade = localidade;
         this.uf = uf;
-        this.ibge = ibge;
-        this.gia = gia;
-        this.ddd = ddd;
-        this.siafi = siafi;
     }
 
-    public String getUnidade() {
-        return unidade;
-    }
-
-    public void setUnidade(String unidade) {
-        this.unidade = unidade;
-    }
 
     public Long getId() {
         return id;
@@ -98,36 +90,12 @@ public class AddressDTO {
         this.uf = uf;
     }
 
-    public String getIbge() {
-        return ibge;
+    public String getNumber() {
+        return number;
     }
 
-    public void setIbge(String ibge) {
-        this.ibge = ibge;
-    }
-
-    public String getGia() {
-        return gia;
-    }
-
-    public void setGia(String gia) {
-        this.gia = gia;
-    }
-
-    public String getDdd() {
-        return ddd;
-    }
-
-    public void setDdd(String ddd) {
-        this.ddd = ddd;
-    }
-
-    public String getSiafi() {
-        return siafi;
-    }
-
-    public void setSiafi(String siafi) {
-        this.siafi = siafi;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     @Override
@@ -139,10 +107,7 @@ public class AddressDTO {
                 ", bairro='" + bairro + '\'' +
                 ", localidade='" + localidade + '\'' +
                 ", uf='" + uf + '\'' +
-                ", ibge='" + ibge + '\'' +
-                ", gia='" + gia + '\'' +
-                ", ddd='" + ddd + '\'' +
-                ", siafi='" + siafi + '\'' +
+                ", number='" + number + '\'' +
                 '}';
     }
 }

@@ -39,7 +39,7 @@ public class User {
     @JoinColumn(name = "checking_account_id", unique = true)
     private CheckingAccount checkingAccount;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "adress_id")
     private Address address;
 

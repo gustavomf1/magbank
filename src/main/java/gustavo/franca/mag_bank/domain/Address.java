@@ -1,57 +1,50 @@
 package gustavo.franca.mag_bank.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
 public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String cep;
-    private String logradouro;
-    private String complemento;
-    private String unidade;
-    private String bairro;
-    private String localidade;
-    private String uf;
-    private String ibge;
-    private String gia;
-    private String ddd;
-    private String siafi;
 
-    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<User> users = new ArrayList<>();
+    private String cep;
+
+    private String logradouro;
+
+    private String complemento;
+
+    private String bairro;
+
+    private String localidade;
+
+    private String uf;
+
+    private String number;
+
+    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private User user;
 
     public Address() {
     }
 
-    public Address(String cep, String logradouro, String complemento, String bairro, String localidade, String uf, String ibge, String gia, String ddd, String siafi) {
+    // Construtor simplificado
+    public Address(String cep, String logradouro, String complemento,
+                   String bairro, String localidade, String uf, String number) {
         this.cep = cep;
         this.logradouro = logradouro;
         this.complemento = complemento;
         this.bairro = bairro;
         this.localidade = localidade;
         this.uf = uf;
-        this.ibge = ibge;
-        this.gia = gia;
-        this.ddd = ddd;
-        this.siafi = siafi;
+        this.number = number;
     }
 
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -60,12 +53,12 @@ public class Address {
         this.id = id;
     }
 
-    public String getUnidade() {
-        return unidade;
+    public String getCep() {
+        return cep;
     }
 
-    public void setUnidade(String unidade) {
-        this.unidade = unidade;
+    public void setCep(String cep) {
+        this.cep = cep;
     }
 
     public String getLogradouro() {
@@ -108,35 +101,19 @@ public class Address {
         this.uf = uf;
     }
 
-    public String getIbge() {
-        return ibge;
+    public String getNumber() {
+        return number;
     }
 
-    public void setIbge(String ibge) {
-        this.ibge = ibge;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
-    public String getGia() {
-        return gia;
+    public User getUser() {
+        return user;
     }
 
-    public void setGia(String gia) {
-        this.gia = gia;
-    }
-
-    public String getDdd() {
-        return ddd;
-    }
-
-    public void setDdd(String ddd) {
-        this.ddd = ddd;
-    }
-
-    public String getSiafi() {
-        return siafi;
-    }
-
-    public void setSiafi(String siafi) {
-        this.siafi = siafi;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

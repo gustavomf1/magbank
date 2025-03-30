@@ -48,17 +48,13 @@ public class UserService {
                 Address address = addressRepository.findByCep(objDTO.getCep())
                         .orElseGet(() -> {
                             Address newAddress = new Address();
-                            newAddress.setCep(addressApi.getCep());
+                            newAddress.setCep(objDTO.getCep());
                             newAddress.setLogradouro(addressApi.getLogradouro());
                             newAddress.setComplemento(addressApi.getComplemento());
-                            newAddress.setUnidade(addressApi.getUnidade());
                             newAddress.setBairro(addressApi.getBairro());
                             newAddress.setLocalidade(addressApi.getLocalidade());
                             newAddress.setUf(addressApi.getUf());
-                            newAddress.setIbge(addressApi.getIbge());
-                            newAddress.setGia(addressApi.getGia());
-                            newAddress.setDdd(addressApi.getDdd());
-                            newAddress.setSiafi(addressApi.getSiafi());
+                            newAddress.setNumber(objDTO.getNumber());
 
                             return addressRepository.save(newAddress);
                         });
